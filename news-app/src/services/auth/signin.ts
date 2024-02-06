@@ -1,5 +1,5 @@
-import { ApiContext, User } from "@/app/types/data"
-import { fetcher } from "@/app/utils"
+import { ApiContext, User } from "@/types/data"
+import { fetcher } from "@/utils"
 
 export type SigninParams = {
   username: string

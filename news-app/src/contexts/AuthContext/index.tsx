@@ -1,9 +1,11 @@
+"use client"
+
 /* eslint-disable */
 import React, { useContext } from 'react'
 import useSWR from 'swr'
-import signin from '@/app/services/auth/signin'
-import signout from '@/app/services/auth/signout'
-import type { ApiContext, User } from '@/app/types/data'
+import signin from '@/services/auth/signin'
+import signout from '@/services/auth/signout'
+import type { ApiContext, User } from '@/types/data'
 
 type AuthContextType = {
   authUser?: User
