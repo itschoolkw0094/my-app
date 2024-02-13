@@ -1,5 +1,7 @@
 import { ApiContext, User } from "@/types/data"
 import { fetcher } from "@/utils"
+import axios from 'axios'
+
 
 export type SigninParams = {
   username: string
@@ -15,7 +17,7 @@ export type SigninParams = {
 const signin = async (
   context: ApiContext,
   params: SigninParams,
-): Promise<User> => {
+) : Promise<User> => {
   return await fetcher(
     `${context.apiRootUrl.replace(/\/$/g, '')}/auth/signin`,
     {
@@ -27,6 +29,7 @@ const signin = async (
       body: JSON.stringify(params),
     },
   )
+  //return axios.post(`${context.apiRootUrl.replace(/\/$/g, '')}/auth/signin`, reqe)
 }
 
 export default signin

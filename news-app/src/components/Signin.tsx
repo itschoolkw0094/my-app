@@ -1,3 +1,5 @@
+"use client"
+
 import type { NextPage } from "next";
 import { useRouter } from "next/navigation"
 import SigninFormContainer from "@/containers/SigninFormContainer";

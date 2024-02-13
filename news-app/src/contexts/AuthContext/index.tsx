@@ -6,11 +6,13 @@ import useSWR from 'swr'
 import signin from '@/services/auth/signin'
 import signout from '@/services/auth/signout'
 import type { ApiContext, User } from '@/types/data'
+import { fetcher } from '@/utils'
+
 
 type AuthContextType = {
   authUser?: User
   isLoading: boolean
-  signin: (username: string, password: string) => Promise<void>
+  signin: (username: string, password: string) => void
   signout: () => Promise<void>
   mutate: (
     data?: User | Promise<User>,

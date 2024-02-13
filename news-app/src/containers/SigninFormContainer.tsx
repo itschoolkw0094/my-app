@@ -1,3 +1,5 @@
+"use client"
+
 import SigninForm from '../components/SigninForm'
 import { useAuthContext } from '../contexts/AuthContext'
 

@@ -21,6 +21,7 @@ server.use(cookieParser());
 server.use(express.json());
 
 server.post('/auth/signin', (req, res) => {
+  res.set({'Access-Control-Allow-Origin':'*'})
   if (
     !(req.body['username'] === 'user' && req.body['password'] === 'password')
   ) {
@@ -28,7 +29,6 @@ server.post('/auth/signin', (req, res) => {
       message: 'Username or password are incorrect',
     });
   }
-
   res.cookie('token', 'dummy_token', {
     maxAge: 3600 * 1000,
     httpOnly: true,
@@ -37,6 +37,7 @@ server.post('/auth/signin', (req, res) => {
 });
 
 server.post('/auth/signout', (req, res) => {
+  res.set({'Access-Control-Allow-Origin':'*'})
   res.cookie('token', '', {
     maxAge: 0,
     httpOnly: true,
@@ -47,6 +48,8 @@ server.post('/auth/signout', (req, res) => {
 });
 
 server.get('/users/me', (req, res) => {
+  res.set({'Access-Control-Allow-Origin':'*'})
+  console.log('CookiesB:', req.cookies['token'])
   if (req.cookies['token'] !== 'dummy_token') {
     return res.status(401).json({
       message: 'Unauthorized',

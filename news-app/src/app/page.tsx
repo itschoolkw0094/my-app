@@ -7,26 +7,18 @@ import { useEffect } from "react";
 import LoggedIn from "@/components/LoggedIn";
 import NotLoggedIn from "@/components/NotLoggedIn";
 import Signin from "@/components/Signin";
-
-const context: ApiContext = {
-  apiRootUrl: process.env.JSON_SERVER_API_PATH || '/'
-}
+import TestHome from "@/components/TestHome";
+import { SWRConfig } from "swr";
+import { fetcher } from "@/utils";
+import { useAuthGuard } from "@/utils/hooks";
 
 export default function Home() {
-  const { authUser, isLoading } = useAuthContext()
+
+  useAuthGuard()
   
   return (
-    <AuthContextProvider context={context}>
-
-      {!authUser && !isLoading && (
-        <>
-        <Signin />
-        <NotLoggedIn />
-        </>  
-      )}
-      {authUser && (
-        <LoggedIn />
-      )}
-    </AuthContextProvider>
+    <>
+      <h1>You are successfully logged in.</h1>
+    </>
   );
 }
