@@ -1,33 +1,50 @@
 "use client"
 
-import { useForm } from 'react-hook-form'
-import signin from '@/services/auth/signin'
-import { useRouter } from 'next/navigation'
+import { AuthContextProvider } from "@/contexts/AuthContext";
+import { useAuthContext } from "@/contexts/AuthContext";
+import { Content } from "next/font/google";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { ApiContext } from "@/types/data";
+import signin from "@/services/auth/signin";
+
+const context: ApiContext = {
+  apiRootUrl: process.env.JSON_SERVER_API_PATH || '/'
+}
 
 export type SigninFormData = {
   username: string
   password: string
 }
 
-/**
- * サインインフォーム
- */
-const SigninForm = () => {
-  const router = useRouter()
+export const onSignin = () => {
+  console.log('successfully signed in')
+}
 
-  // React Hook Formの使用
+export const onSubmit = async (data: SigninFormData) => {
+  const { username, password }  = data
+  try {
+    const resp = await signin(context, data)
+    console.log(resp)
+  } catch(err: unknown) {
+    if(err instanceof Error) {
+      window.alert(err.message)
+    }
+  } finally {
+    onSignin && onSignin()
+  }
+}
+
+const TestHome = () => {
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<SigninFormData>()
 
-  const onSubmit = async (data: SigninFormData) => {
-    const signinFlag = signin && (await signin(data)).valueOf()
-    if(signinFlag) router.push('/')
-  }
-
   return (
+    <AuthContextProvider context={context}>
     <form onSubmit={handleSubmit(onSubmit)}>
         {/* サインインユーザー名の入力 */}
         <input
@@ -55,7 +72,8 @@ const SigninForm = () => {
         サインイン
       </button>
     </form>
+  </AuthContextProvider>
   )
 }
 
-export default SigninForm
+export default TestHome

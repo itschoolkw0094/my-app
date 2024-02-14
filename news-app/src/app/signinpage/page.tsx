@@ -1,12 +1,12 @@
-import LoggedIn from "@/components/LoggedIn"
-import { useAuthContext } from "@/contexts/AuthContext"
-import Signin from "@/components/Signin"
+"use client"
+
+import SigninForm from "@/components/SigninForm"
 import NotLoggedIn from "@/components/NotLoggedIn"
 
 const Page = () => {
   return (
     <>
-      <Signin />
+      <SigninForm />
       <NotLoggedIn />
     </> 
   )

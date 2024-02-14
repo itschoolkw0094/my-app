@@ -1,30 +1,32 @@
 "use client"
 
 import { useForm } from 'react-hook-form'
-import signin from '@/services/auth/signin'
-import { useRouter } from 'next/navigation'
 
 export type SigninFormData = {
   username: string
   password: string
 }
 
+interface SigninFormProps {
+  /**
+   * サインインボタンを押した時のイベントハンドラ
+   */
+  onSignin?: (username: string, password: string) => void
+}
+
 /**
  * サインインフォーム
  */
-const SigninForm = () => {
-  const router = useRouter()
-
+const SigninForm = ({ onSignin }: SigninFormProps) => {
   // React Hook Formの使用
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<SigninFormData>()
-
-  const onSubmit = async (data: SigninFormData) => {
-    const signinFlag = signin && (await signin(data)).valueOf()
-    if(signinFlag) router.push('/')
+  const onSubmit = (data: SigninFormData) => {
+    const { username, password } = data
+    onSignin && onSignin(username, password)
   }
 
   return (

@@ -1,27 +1,19 @@
+'user client'
+
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
-import { useAuthContext } from '@/contexts/AuthContext'
+import { useSession } from 'next-auth/react'
+
 
 export const useAuthGuard = (): void => {
   const router = useRouter()
-  const { authUser, isLoading } = useAuthContext()
-  console.log('User:', authUser)
+
+  const { data: session, status } = useSession()
 
   useEffect(() => {
     // ユーザーが取得できない場合はサインインページにリダイレクト
-    console.log(`${authUser} & ${isLoading}`)
-    if (!authUser && !isLoading) {
-    //const currentPath = router.pathname
-
-    //   router.push({
-    //     pathname: '/signinpage',
-    //     query: {
-    //       redirect_to: currentPath,
-    //     },
-    //   })
-    // }
-      console.log('FAILED')
+    if(status !== "authenticated") {
       router.push('/signinpage')
     }
-  }, [router, authUser, isLoading])
+  }, [router, session, status])
 }

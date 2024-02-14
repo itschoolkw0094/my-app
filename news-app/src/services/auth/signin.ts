@@ -1,35 +1,27 @@
-import { ApiContext, User } from "@/types/data"
-import { fetcher } from "@/utils"
-import axios from 'axios'
+import { signIn } from "next-auth/react"
 
-
-export type SigninParams = {
-  username: string
-  password: string
+type SigninData = {
+  username: string,
+  password: string,
 }
 
-/**
- * 認証API（サインイン）
- * @param context APIコンテキスト
- * @param params パラメータ
- * @returns ログインユーザー
- */
-const signin = async (
-  context: ApiContext,
-  params: SigninParams,
-) : Promise<User> => {
-  return await fetcher(
-    `${context.apiRootUrl.replace(/\/$/g, '')}/auth/signin`,
-    {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(params),
-    },
-  )
-  //return axios.post(`${context.apiRootUrl.replace(/\/$/g, '')}/auth/signin`, reqe)
+const signin = async (data: SigninData) => {
+
+  const { username, password } = data
+
+    const result = await signIn('user', {
+      redirect: false,
+      username: username,
+      password: password
+    })
+
+    if(result?.error) {
+      console.log('ERROR')
+      return false
+    } else {
+      console.log('Logged in: ', username)
+      return true
+    }
 }
 
 export default signin
