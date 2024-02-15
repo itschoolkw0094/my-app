@@ -1,7 +1,7 @@
 "use client"
 
 import { useForm } from 'react-hook-form'
-import signin from '@/services/auth/signin'
+import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 
 export type SigninFormData = {
@@ -20,11 +20,27 @@ const SigninForm = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setError
   } = useForm<SigninFormData>()
 
   const onSubmit = async (data: SigninFormData) => {
-    const signinFlag = signin && (await signin(data)).valueOf()
-    if(signinFlag) router.push('/')
+    signIn('credentials', {
+      redirect: false,
+      username: data.username,
+      password: data.password,
+      callbackUrl: '/'
+    })
+    .then((res) => {
+      if (res?.error) {
+        setError('username', { type: 'login' })
+        setError('password', { type: 'login', message: 'usernameかpassworが違います' })
+        return
+      }
+      router.push('/')
+    })
+    .catch((err) => {
+      console.error(err)
+    })
   }
 
   return (

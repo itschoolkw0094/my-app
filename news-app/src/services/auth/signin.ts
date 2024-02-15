@@ -9,7 +9,7 @@ const signin = async (data: SigninData) => {
 
   const { username, password } = data
 
-    const result = await signIn('user', {
+    const result = await signIn('credentials', {
       redirect: false,
       username: username,
       password: password

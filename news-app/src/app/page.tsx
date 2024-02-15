@@ -1,7 +1,16 @@
 "use client"
 
-import { useAuthGuard } from "@/utils/hooks";
 import signout from "@/services/auth/signout";
+import { useAuthGuard } from "@/utils/hooks";
+import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { redirect } from "next/dist/server/api-utils";
+
+// const signOutInternal = () => {
+//   const router = useRouter()
+//   signOut()
+//   router.push('/signinpage')
+// }
 
 export default function Home() {
 
@@ -10,7 +19,7 @@ export default function Home() {
   return (
     <>
       <h1>You are successfully logged in.</h1>
-      <button onClick={ () => signout }>ログアウト</button>
+      <button onClick={ () => signOut({callbackUrl: '/', redirect: false}) }>ログアウト</button>
     </>
   );
 }

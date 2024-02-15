@@ -32,7 +32,7 @@ const veryfyToken = token =>
   )
 
 const isAuth = (username, password) => {
-  return username === 'username' && password === 'password'
+  return username === 'user' && password === 'password'
 }
   
 
@@ -40,15 +40,19 @@ server.use(express.json());
 
 server.post('/auth/signin', (req, res) => {
   res.set({'Access-Control-Allow-Origin':'*'})
+  console.log('REQUESTED: signin')
+  console.log(req.body)
   const { username, password } = req.body
+
   if (
     !isAuth(username, password)
   ) {
+    console.log('STATUS: NG')
     return res.status(401).json({
       message: 'Username or password are incorrect',
     });
   }
-  
+  console.log('STATUS: OK')
   //const access_token = createToken({ username, password })
   res.status(201).json(authUser)
 });

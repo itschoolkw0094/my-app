@@ -6,16 +6,17 @@ export const authOptions = {
   providers: [
     // 認証用
     CredentialsProvider({
-      id: 'user',
-      name: 'User',
+      name: 'Credentials',
       credentials: {
-        username: { label: 'ユーザー名', type: 'text', placeholder: 'メールアドレス' },
+        username: { label: 'ユーザー名', type: 'text', placeholder: 'ユーザー名' },
         password: { label: 'パスワード', type: 'password' }
       },
       async authorize(credentials) {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/signin`, {
+        const dataUsername = credentials.username
+        const dataPassword = credentials.password
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/signin`, {
             method: 'POST',
-            body: JSON.stringify(credentials),
+            body: JSON.stringify({username: dataUsername, password: dataPassword}),
             headers: {
               'Content-Type': 'application/json'
             }
