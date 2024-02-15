@@ -2,7 +2,6 @@ import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 
-
 export const useAuthGuard = async() => {
   const router = useRouter()
 
@@ -16,3 +15,5 @@ export const useAuthGuard = async() => {
     }
   }, [router, session, status])
 }
+
+
