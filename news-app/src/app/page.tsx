@@ -1,31 +1,27 @@
 "use client"
 
-import signout from "@/services/auth/signout";
 import { useAuthGuard } from "@/utils/hooks";
 import { signOut, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { redirect } from "next/dist/server/api-utils";
-import { getIsAuthLoading } from "@/utils/getStatus";
-
-// const signOutInternal = () => {
-//   const router = useRouter()
-//   signOut()
-//   router.push('/signinpage')
-// }
+import { useEffect, useState } from "react";
 
 export default function Home() {
 
-  const isLoading = getIsAuthLoading()
+// 認証ローディング判定
+  const [isAuthLoading, setIsAuthLoading] = useState<boolean>(true)
+  const { status } = useSession()
+  useEffect(() => {
+    setIsAuthLoading(status !== 'authenticated')
+  }, [status])
   useAuthGuard()
   
   return (
     <>
-      {isLoading ? (
+      {isAuthLoading ? (
         <h1>Loading...</h1>
       ) : (
         <>
           <h1>You are successfully logged in.</h1>
-          <button onClick={ () => signOut({callbackUrl: '/', redirect: false}) }>ログアウト</button>
+          <button onClick={ () => signOut({callbackUrl: '/signin', redirect: false}) }>ログアウト</button>
         </> 
       )}
     </>
