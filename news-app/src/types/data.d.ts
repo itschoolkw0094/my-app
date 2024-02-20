@@ -12,3 +12,9 @@ export type User = {
 export type ApiContext = {
   apiRootUrl: string
 }
+
+export type PostDataType = {
+  name: string,
+  email: string,
+  password: string,
+}
