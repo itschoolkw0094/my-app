@@ -31,7 +31,7 @@ export default function Page() {
     .then((res) => {
       if (res?.error) {
         setError('username', { type: 'login' })
-        setError('password', { type: 'login', message: 'usernameかpassworが違います' })
+        setError('password', { type: 'login', message: 'usernameかpasswordが違います' })
         return
       }
       router.push('/')

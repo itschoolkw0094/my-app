@@ -15,11 +15,11 @@ export const authOptions = {
     CredentialsProvider({
       name: 'Credentials',
       credentials: {
-        username: { label: 'ユーザー名', type: 'text', placeholder: 'ユーザー名' },
+        email: { label: 'メールアドレス', type: 'email', placeholder: 'メールアドレス' },
         password: { label: 'パスワード', type: 'password' }
       },
       async authorize(credentials) {
-        const dataUsername = credentials.username
+        const dataEmail = credentials.email
         const dataPassword = hash(credentials.password)
         // const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/signin`, {
         //     method: 'POST',
@@ -30,7 +30,7 @@ export const authOptions = {
         //   }
         // )
         const user = await prisma.user.findUnique({
-          where: { email: dataUsername },
+          where: { email: dataEmail },
         })
         if(!user) return null
         const isValid = await compare(

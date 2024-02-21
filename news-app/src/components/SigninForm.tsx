@@ -5,7 +5,7 @@ import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 
 export type SigninFormData = {
-  username: string
+  email: string
   password: string
 }
 
@@ -26,14 +26,14 @@ const SigninForm = () => {
   const onSubmit = async (data: SigninFormData) => {
     signIn('credentials', {
       redirect: false,
-      username: data.username,
+      email: data.email,
       password: data.password,
       callbackUrl: '/'
     })
     .then((res) => {
       if (res?.error) {
-        setError('username', { type: 'login' })
-        setError('password', { type: 'login', message: 'usernameかpassworが違います' })
+        setError('email', { type: 'login' })
+        setError('password', { type: 'login', message: 'emailかpassworが違います' })
         return
       }
       router.push('/')
@@ -45,16 +45,16 @@ const SigninForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-        {/* サインインユーザー名の入力 */}
+        {/* サインインメールアドレスの入力 */}
         <input
-          {...register('username', { required: true })}
-          name="username"
-          type="text"
-          placeholder="ユーザー名"
+          {...register('email', { required: true })}
+          name="email"
+          type="email"
+          placeholder="メールアドレス"
           //hasError={!!errors.username}
         />
-        {errors.username && (
-            <p>ユーザー名は必須です</p>
+        {errors.email && (
+            <p>メールアドレスは必須です</p>
         )}
         {/* サインインパスワードの入力 */}
         <input
