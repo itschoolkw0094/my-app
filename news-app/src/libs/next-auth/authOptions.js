@@ -3,7 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { randomUUID, randomBytes } from "crypto";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
-import { hash, compare } from "bcrypt";
+import { hash, compare } from "bcryptjs-react";
 
 const prisma = new PrismaClient()
 
