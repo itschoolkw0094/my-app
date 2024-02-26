@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import prisma from "@/libs/prisma";
-import { hashSync, genSaltSync } from "bcryptjs-react";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
 export async function POST(req) {
@@ -15,7 +14,6 @@ export async function POST(req) {
         hashedPassword: body.password,
       }
     })
-    console.log(prisma.user.findUnique())
     return NextResponse.json({
       message: "successfully registered."
     })

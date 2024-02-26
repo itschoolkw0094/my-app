@@ -2,9 +2,6 @@
 
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import signUp from "@/services/signup";
-import { PostDataType } from "@/types/data";
-import { POST } from "../api/auth/[...nextauth]/route";
 import { hashSync, genSaltSync } from "bcryptjs-react";
 
 export type SignupFormData = {
@@ -36,18 +33,21 @@ const Page = () => {
       passwordConfirm: hashed,
     }
     console.log(hashed)
-    const res = await fetch('http://localhost:3000/api/auth/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(postData)
-    })
-
-    console.log(res)
-    const result = await res.json()
-    
-    console.log(result)
+    try {
+      const res = await fetch('http://localhost:3000/api/auth/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(postData)
+      })
+      if(res) {
+        const result = await res.json()
+        router.push('/')
+      }
+    } catch (err) {
+      console.error(err)
+    }
   }
 
 
@@ -60,7 +60,7 @@ const Page = () => {
             <h1 className="block text-2xl font-bold text-gray-800 dark:text-white">Sign up</h1>
             <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
               Already have an account?
-              <a className="text-blue-600 decoration-2 hover:underline font-medium dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="../examples/html/signin.html">
+              <a className="text-blue-600 decoration-2 hover:underline font-medium dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="../signin">
                 Sign in here
               </a>
             </p>
@@ -130,14 +130,14 @@ const Page = () => {
                 {/* <!-- End Form Group --> */}
 
                 {/* <!-- Checkbox --> */}
-                <div className="flex items-center">
+                {/* <div className="flex items-center">
                   <div className="flex">
                     <input id="remember-me" name="remember-me" type="checkbox" className="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800" />
                   </div>
                   <div className="ms-3">
                     <label htmlFor="remember-me" className="text-sm dark:text-white">I accept the <a className="text-blue-600 decoration-2 hover:underline font-medium dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#">Terms and Conditions</a></label>
                   </div>
-                </div>
+                </div> */}
                 {/* <!-- End Checkbox --> */}
 
                 <button type="submit" className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">Sign up</button>

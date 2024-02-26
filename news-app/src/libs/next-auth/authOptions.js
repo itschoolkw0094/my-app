@@ -21,7 +21,7 @@ export const authOptions = {
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
         })
-        console.log(user)
+        //console.log(user)
         if(!user) return null
         const isValid = await compareSync(
           credentials.password,
@@ -35,7 +35,7 @@ export const authOptions = {
     }),
   ],
 
-  adapter: PrismaAdapter(prisma),
+  // adapter: PrismaAdapter(prisma),
 
   callbacks: {
     
