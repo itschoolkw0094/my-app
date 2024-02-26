@@ -3,6 +3,8 @@
 import { useForm } from 'react-hook-form'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import { hashSync, genSaltSync, compare } from "bcryptjs-react";
+
 
 export type SigninFormData = {
   email: string
@@ -24,10 +26,13 @@ const SigninForm = () => {
   } = useForm<SigninFormData>()
 
   const onSubmit = async (data: SigninFormData) => {
-    signIn('credentials', {
+    console.log('signin...')
+    const salt = await genSaltSync(12)
+    const hashedPassword = await hashSync(data.password, salt)
+    signIn('Credentials', {
       redirect: false,
       email: data.email,
-      password: data.password,
+      password: hashedPassword,
       callbackUrl: '/'
     })
     .then((res) => {

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import signUp from "@/services/signup";
 import { PostDataType } from "@/types/data";
 import { POST } from "../api/auth/[...nextauth]/route";
+import { hashSync, genSaltSync } from "bcryptjs-react";
 
 export type SignupFormData = {
   email: string,
@@ -27,14 +28,23 @@ const Page = () => {
 
   // TODO 修正
   const onSubmit = async (data: SignupFormData) => {
+    const salt = await genSaltSync(12)
+    const hashed = await hashSync(data.password, salt)
+    const postData: SignupFormData = {
+      email: data.email,
+      password: hashed,
+      passwordConfirm: hashed,
+    }
+    console.log(hashed)
     const res = await fetch('http://localhost:3000/api/auth/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(postData)
     })
 
+    console.log(res)
     const result = await res.json()
     
     console.log(result)

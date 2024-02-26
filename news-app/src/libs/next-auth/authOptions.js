@@ -2,10 +2,8 @@ import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { randomUUID, randomBytes } from "crypto";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { PrismaClient } from "@prisma/client";
-import { hash, compare } from "bcryptjs-react";
-
-const prisma = new PrismaClient()
+import { compareSync } from "bcryptjs-react";
+import prisma from "../prisma";
 
 export const authOptions = {
   
@@ -19,32 +17,17 @@ export const authOptions = {
         password: { label: 'パスワード', type: 'password' }
       },
       async authorize(credentials) {
-        const dataEmail = credentials.email
-        const dataPassword = hash(credentials.password)
-        // const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/signin`, {
-        //     method: 'POST',
-        //     body: JSON.stringify({username: dataUsername, password: dataPassword}),
-        //     headers: {
-        //       'Content-Type': 'application/json'
-        //     }
-        //   }
-        // )
+        //console.log(credentials)
         const user = await prisma.user.findUnique({
-          where: { email: dataEmail },
+          where: { email: credentials.email },
         })
+        console.log(user)
         if(!user) return null
-        const isValid = await compare(
-          dataPassword,
+        const isValid = await compareSync(
+          credentials.password,
           user.hashedPassword,
         )
-
         if(isValid) return user
-
-        //const user = res.json()
-
-        // if(res.ok && user) {
-        //   return user
-        // }
 
         return null
       },
