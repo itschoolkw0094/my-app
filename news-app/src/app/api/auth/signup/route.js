@@ -5,8 +5,6 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 export async function POST(req) {
   const body = await req.json()
   console.log(body)
-  // const salt = genSaltSync(12)
-  // const hashed = hashSync(body.password, salt)
   try {
     await prisma.user.create({
       data: {

@@ -18,3 +18,12 @@ export type PostDataType = {
   email: string,
   password: string,
 }
+
+export type CommentPropsType = {
+  userIconUrl: string
+  userName: string
+  userId: string
+  content: string
+  goodCount: number
+  badCount: number
+}
