@@ -20,6 +20,9 @@ model User {
   image         String?
   hashedPassword String
   accounts      Account[]
+  authed_comments Comment[] @relation("authed_comments")
+  gooded_comments Comment[] @relation("gooded_comments")
+  baded_comments Comment[]  @relation("baded_comments")
 }
 
 model Account {
@@ -39,4 +42,30 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+}
+
+model News {
+  id                 String  @id @default(cuid())
+  image              String?
+  date               DateTime?
+  title              String?
+  content            String?  @db.Text
+  article_url        String?
+  comments           Comment[]
+}
+
+model Comment {
+  id                 String  @id @default(cuid())
+  authorId           String
+  author             User @relation("authed_comments", fields: [authorId], references: [id])
+  newsId             String
+  atNews             News @relation(fields: [newsId], references: [id])
+  date               DateTime?
+  title              String?
+  content            String?  @db.Text
+  type               Boolean @default(false)
+  goodCount          Int @default(0)
+  badCount           Int @default(0)
+  good_by            User[] @relation("gooded_comments")
+  bad_by             User[] @relation("baded_comments")
 }
