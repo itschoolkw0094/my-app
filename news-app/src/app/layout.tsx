@@ -4,6 +4,7 @@ import PrelineLoader from "@/components/PrelineLoader";
 import "./globals.css";
 // import 'ress';
 import { SessionProvider } from "next-auth/react";
+import Header from "@/components/Nav/Header";
 
 export default function RootLayout({
   children,
@@ -14,7 +15,10 @@ export default function RootLayout({
     <html lang="en" className="h-full">
       <body className="dark:bg-slate-900 bg-gray-100 h-full">
         <PrelineLoader />
-        <SessionProvider>{children}</SessionProvider>
+        <SessionProvider>
+          <Header/>
+          {children}
+        </SessionProvider>
       </body>
     </html>
   );
