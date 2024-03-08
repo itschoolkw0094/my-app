@@ -7,6 +7,7 @@ import CommentTab from "@/components/mainAppUI/CommentTab";
 import ArticleCard from "@/components/mainAppUI/ArticleCard";
 import { ArticleType } from "@/types/data";
 import SideBar from "@/components/Nav/SideBar";
+import InputArea from "@/components/mainAppUI/InputArea";
 
 export default function Home() {
   // 認証ローディング判定
@@ -47,6 +48,7 @@ export default function Home() {
           <main className="flex flex-col w-full max-w-3xl mx-auto p-2">
             <ArticleCard article={articles[2]} />
             <CommentTab />
+            <InputArea />
           </main>
         </>
       {/* )} */}
