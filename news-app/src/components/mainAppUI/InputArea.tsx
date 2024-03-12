@@ -32,7 +32,7 @@ const InputArea = () => {
   return (
     <>
     {isOpenOffcanvas ? (
-      <div id="" className={`hs-overlay hs-overlay-open:translate-y-0 translate-y-full transition-all duration-300 fixed bottom-0 inset-x-0 transform max-h-40 size-full z-[80] bg-white border-b dark:bg-gray-800 dark:border-gray-700`} tabIndex={-1}>
+      <div id="" className={`hs-overlay translate-y-0 transition-all duration-300 fixed bottom-0 inset-x-0 transform max-h-40 size-full z-[80] bg-white border-b dark:bg-gray-800 dark:border-gray-700`} tabIndex={-1}>
   <div className="flex justify-between items-center py-3 px-4 border-b dark:border-gray-700">
     <h3 className="font-bold text-gray-800 dark:text-white">
       Offcanvas title
@@ -50,8 +50,8 @@ const InputArea = () => {
     <p className="text-gray-800 dark:text-6-400">
       Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
     </p>
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input type="text" {...register('content', { required: true })}></input>
+    <form onSubmit={() => handleSubmit(onSubmit)}>
+      <input type="text" {...register('content', { required: true })} />
       <button type="submit" data-hs-overlay="">send</button>
     </form>
   </div>
