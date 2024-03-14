@@ -77,7 +77,7 @@ const Header = () => {
 
               <div
                 id="navbar-with-collapse"
-                className="hidden basis-full grow sm:block" 
+                className="basis-full grow sm:block" 
               >
                 <div className="flex flex-col gap-5 mt-5 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5">
                   {data ? 

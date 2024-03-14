@@ -7,7 +7,7 @@ type InputData = {
 
 const InputArea = () => {
 
-  console.log('called')
+  // console.log('called')
   const {
     register,
     handleSubmit,
@@ -31,8 +31,8 @@ const InputArea = () => {
 
   return (
     <>
-    {isOpenOffcanvas ? (
-      <div id="" className={`hs-overlay translate-y-0 transition-all duration-300 fixed bottom-0 inset-x-0 transform max-h-40 size-full z-[80] bg-white border-b dark:bg-gray-800 dark:border-gray-700`} tabIndex={-1}>
+    {/* {isOpenOffcanvas ? ( */}
+      <div id="" className={`hs-overlay translate-y-0 bottom-0 inset-x-0 transition-all duration-300 fixed transform max-h-40 size-full z-[80] bg-white border-b dark:bg-gray-800 dark:border-gray-700 ${isOpenOffcanvas ? "" : "translate-y-full"}`} tabIndex={-1}>
   <div className="flex justify-between items-center py-3 px-4 border-b dark:border-gray-700">
     <h3 className="font-bold text-gray-800 dark:text-white">
       Offcanvas title
@@ -56,8 +56,8 @@ const InputArea = () => {
     </form>
   </div>
 </div>
-    ):
-    (
+    {/* ):
+    ( */}
       <div className="fixed bottom-0 inset-x-0 transform w-full items-center bg-white">
         <button
           type="button" 
@@ -68,7 +68,7 @@ const InputArea = () => {
           Comment for this areticle !
         </button>
       </div>
-    )}
+    {/* )} */}
     </>
   )
 }
