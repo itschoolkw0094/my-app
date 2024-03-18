@@ -23,22 +23,20 @@ const InputArea = () => {
 
   const [isOpenOffcanvas, setIsOpenOffcanvas] = useState<boolean>(false)
 
-  const openOffcanvas = () => {
+  const toggleOffcanvas = () => {
     const v = !isOpenOffcanvas
     setIsOpenOffcanvas(v)
-    console.log(v)
   }
 
   return (
     <>
-    {/* {isOpenOffcanvas ? ( */}
       <div id="" className={`hs-overlay translate-y-0 bottom-0 inset-x-0 transition-all duration-300 fixed transform max-h-40 size-full z-[80] bg-white border-b dark:bg-gray-800 dark:border-gray-700 ${isOpenOffcanvas ? "" : "translate-y-full"}`} tabIndex={-1}>
   <div className="flex justify-between items-center py-3 px-4 border-b dark:border-gray-700">
     <h3 className="font-bold text-gray-800 dark:text-white">
       Offcanvas title
     </h3>
     <button 
-    onClick={() => openOffcanvas()}
+    onClick={() => toggleOffcanvas()}
     type="button" className="flex justify-center items-center size-7 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:hover:bg-gray-700 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
       data-hs-overlay="#hs-overlay-bottom"
     >
@@ -47,28 +45,22 @@ const InputArea = () => {
     </button>
   </div>
   <div className="p-4">
-    <p className="text-gray-800 dark:text-6-400">
-      Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
-    </p>
     <form onSubmit={() => handleSubmit(onSubmit)}>
-      <input type="text" {...register('content', { required: true })} />
-      <button type="submit" data-hs-overlay="">send</button>
+      <input type="text" {...register('content', { required: true })} id="content" name="content" className="w-full h-full"/>
+      <button type="submit">send</button>
     </form>
   </div>
 </div>
-    {/* ):
-    ( */}
       <div className="fixed bottom-0 inset-x-0 transform w-full items-center bg-white">
         <button
           type="button" 
           className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-          onClick={() => openOffcanvas()}
+          onClick={() => toggleOffcanvas()}
           // data-hs-overlay="#hs-overlay-bottom"
           >
           Comment for this areticle !
         </button>
       </div>
-    {/* )} */}
     </>
   )
 }

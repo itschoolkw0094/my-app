@@ -69,3 +69,8 @@ model Comment {
   good_by            User[] @relation("gooded_comments")
   bad_by             User[] @relation("baded_comments")
 }
+
+model Good {
+  id                 String @id @default(cuid())
+  userId             User @relation("gooded_comments", )
+}
