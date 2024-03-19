@@ -6,38 +6,38 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("POSTGRES_PRISMA_URL")
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
   directUrl = env("POSTGRES_URL_NON_POOLING")
   // shadowDatabaseUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  hashedPassword String
-  accounts      Account[]
+  id              String    @id @default(cuid())
+  name            String?
+  email           String?   @unique
+  emailVerified   DateTime?
+  image           String?
+  hashedPassword  String
+  accounts        Account[]
   authed_comments Comment[] @relation("authed_comments")
-  gooded_comments Comment[] @relation("gooded_comments")
-  baded_comments Comment[]  @relation("baded_comments")
+  gooded_comments Good[]    @relation("good_by")
+  baded_comments  Bad[]     @relation("bad_by")
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -45,32 +45,49 @@ model Account {
 }
 
 model News {
-  id                 String  @id @default(cuid())
-  image              String?
-  date               DateTime?
-  title              String?
-  content            String?  @db.Text
-  article_url        String?
-  comments           Comment[]
+  id          String    @id @default(cuid())
+  image       String?
+  date        DateTime?
+  title       String?
+  content     String?   @db.Text
+  article_url String?
+  comments    Comment[]
 }
 
 model Comment {
-  id                 String  @id @default(cuid())
-  authorId           String
-  author             User @relation("authed_comments", fields: [authorId], references: [id])
-  newsId             String
-  atNews             News @relation(fields: [newsId], references: [id])
-  date               DateTime?
-  title              String?
-  content            String?  @db.Text
-  type               Boolean @default(false)
-  goodCount          Int @default(0)
-  badCount           Int @default(0)
-  good_by            User[] @relation("gooded_comments")
-  bad_by             User[] @relation("baded_comments")
+  id        String    @id @default(cuid())
+  authorId  String
+  author    User      @relation("authed_comments", fields: [authorId], references: [id])
+  newsId    String
+  atNews    News      @relation(fields: [newsId], references: [id])
+  date      DateTime?
+  title     String?
+  content   String?   @db.Text
+  type      Boolean   @default(false)
+  goodCount Int       @default(0)
+  badCount  Int       @default(0)
+  Good      Good[]
+  Bad       Bad[]
 }
 
 model Good {
-  id                 String @id @default(cuid())
-  userId             User @relation("gooded_comments", )
+  id        Int       @id @default(autoincrement())
+  userId    String
+  byUser    User      @relation("good_by", fields: [userId], references: [id])
+  commentId String
+  atComment Comment   @relation(fields: [commentId], references: [id])
+  date      DateTime?
+
+  @@unique([userId, commentId])
+}
+
+model Bad {
+  id        Int       @id @default(autoincrement())
+  userId    String
+  byUser    User      @relation("bad_by", fields: [userId], references: [id])
+  commentId String
+  atComment Comment   @relation(fields: [commentId], references: [id])
+  date      DateTime?
+
+  @@unique([userId, commentId])
 }
