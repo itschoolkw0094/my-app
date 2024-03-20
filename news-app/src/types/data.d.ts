@@ -36,3 +36,12 @@ export type ArticleType = {
   content: string | null;
   article_url: string | null;
 };
+
+export type CommentType = {
+  id: string;
+  author: string;
+  newsId: string;
+  type: boolean;
+  content: string;
+  date: string | null
+}
