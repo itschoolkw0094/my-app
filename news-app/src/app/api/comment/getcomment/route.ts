@@ -6,7 +6,7 @@ export async function GET(req: NextRequest) {
   try {
     const result = await prisma.comment.findMany({
       where: {
-        newsId: searchParams.get('newsid') as string,
+        newsId: searchParams.get('newsId') as string,
         type: searchParams.get('type') === 'true' ? true : false
       }
     })
