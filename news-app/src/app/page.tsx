@@ -22,8 +22,12 @@ export default function Home() {
       const resultArticle = await resArticle.json();
       await setArticles(resultArticle);
     }
+    fetchNews()
+  }, [])
 
     const fetchComments = async() => {
+      if(articles[0] === undefined) return
+
       const prosParams = {
         newsId: articles[0].id,
         type: 'true'
@@ -43,17 +47,11 @@ export default function Home() {
       setProsComment(resultProsComment)
       setConsComment(resultConsComment)
     }
-
-    const fetchNewsAndComment = async () => {
-      fetchNews().then(() => fetchComments())
-    };
-
-    fetchNewsAndComment();
-  }, []);
+    fetchComments()
 
   return (
           <main className="flex flex-col w-full max-w-3xl mx-auto p-2">
-            <ArticleCard article={articles[0] && articles[0]} />
+            <ArticleCard article={articles[0]} />
             <CommentTab prosComments={prosComment} consComments={consComment} />
             <InputArea />
           </main>

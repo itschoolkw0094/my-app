@@ -39,7 +39,7 @@ export type ArticleType = {
 
 export type CommentType = {
   id: string;
-  author: string;
+  authorId: string;
   newsId: string;
   type: boolean;
   content: string;
