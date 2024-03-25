@@ -8,6 +8,7 @@ export async function POST(req) {
   try {
     await prisma.user.create({
       data: {
+        name: body.name,
         email: body.email,
         hashedPassword: body.password,
       }

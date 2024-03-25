@@ -32,10 +32,10 @@ const InputArea = () => {
 
   return (
     <>
-      <div id="" className={`hs-overlay translate-y-0 bottom-0 inset-x-0 transition-all duration-300 fixed transform max-h-40 size-full z-[80] bg-white border-b dark:bg-gray-800 dark:border-gray-700 ${isOpenOffcanvas ? "" : "translate-y-full"}`} tabIndex={-1}>
+      <div id="" className={`hs-overlay translate-y-0 bottom-0 inset-x-0 transition-all duration-300 fixed transform max-h-60 size-full z-[80] bg-white border-b dark:bg-gray-800 dark:border-gray-700 ${isOpenOffcanvas ? "" : "translate-y-full"}`} tabIndex={-1}>
   <div className="flex justify-between items-center py-3 px-4 border-b dark:border-gray-700">
     <h3 className="font-bold text-gray-800 dark:text-white">
-      Offcanvas title
+      Comment For This Article
     </h3>
     <button 
     onClick={() => toggleOffcanvas()}
@@ -47,9 +47,9 @@ const InputArea = () => {
     </button>
   </div>
   <div className="p-4">
-    <form onSubmit={() => handleSubmit(onSubmit)}>
-      <input type="text" {...register('content', { required: true })} id="content" name="content" className="w-full h-full"/>
-      <button type="submit">send</button>
+    <form onSubmit={() => handleSubmit(onSubmit)} className="flex flex-col items-center size-full">
+      <textarea {...register('content', { required: true })} id="content" name="content" rows={3} className="w-full block"></textarea>
+      <button type="submit" className="w-1/2 my-3 py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">Send !</button>
     </form>
   </div>
 </div>

@@ -19,7 +19,6 @@ export default function RootLayout({
         <Suspense fallback={<Loading />}>
         <PrelineLoader />
         <SessionProvider>
-          <Header/>
           {children}
         </SessionProvider>
         </Suspense>

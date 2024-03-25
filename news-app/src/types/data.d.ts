@@ -1,11 +1,9 @@
 // ユーザー
-export type User = {
-  id: number;
-  username: string;
-  displayName: string;
+export type UserForApp = {
+  id: string;
+  name: string;
   email: string;
-  profileImageUrl: string;
-  description: string;
+  image: string;
 };
 
 // API Context
@@ -40,8 +38,12 @@ export type ArticleType = {
 export type CommentType = {
   id: string;
   authorId: string;
+  authorName: string | null;
   newsId: string;
+  date: Date | null;
+  title: string | null;
   type: boolean;
-  content: string;
-  date: string | null
+  content: string | null;
+  goodCount: number;
+  badCount: number;
 }

@@ -15,7 +15,7 @@ datasource db {
 model User {
   id              String    @id @default(cuid())
   name            String?
-  email           String?   @unique
+  email           String?  @unique
   emailVerified   DateTime?
   image           String?
   hashedPassword  String
@@ -58,6 +58,7 @@ model Comment {
   id        String    @id @default(cuid())
   authorId  String
   author    User      @relation("authed_comments", fields: [authorId], references: [id])
+  authorName String?
   newsId    String
   atNews    News      @relation(fields: [newsId], references: [id])
   date      DateTime?
