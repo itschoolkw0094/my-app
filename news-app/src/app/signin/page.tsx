@@ -35,7 +35,7 @@ export default function Page() {
         setError('password', { type: 'login', message: 'usernameかpasswordが違います' })
         return
       }
-      router.push('/')
+      router.push('/home')
     })
     .catch((err) => {
       console.error(err)

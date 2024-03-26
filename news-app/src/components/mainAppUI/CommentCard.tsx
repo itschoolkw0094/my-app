@@ -2,9 +2,9 @@ import { CommentType } from "@/types/data";
 
 const CommentCard = (props: {comment: CommentType}) => {
   return (
-    <div className="w-full flex flex-col bg-white p-1 md:p-2">
-      <h3 className="text-md font-bold text-gray-600 dark:text-white">
-        {props.comment.authorName ? props.comment.authorName : 'Anonymous'}
+    <div className="w-full flex flex-col bg-white p-0.5 md:p-0.5">
+      <h3 className="text-lg font-bold text-gray-600 dark:text-white">
+        {props.comment.authorName || 'Anonymous'}
       </h3>
       <p className="mt-1 text-xs font-medium uppercase text-gray-500 dark:text-gray-500">
         @{props.comment.authorId}

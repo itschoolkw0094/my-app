@@ -2,6 +2,7 @@ import CommentTab from "@/components/mainAppUI/CommentTab"
 import ArticleCard from "@/components/mainAppUI/ArticleCard"
 import InputArea from "@/components/mainAppUI/InputArea"
 import { ArticleType, CommentType } from "@/types/data"
+import Header from "@/components/Nav/Header"
 
 // ニュース情報をサーバーサイドで取得する
 // 24時間で再取得
@@ -26,8 +27,8 @@ const fetchComments = async(articleId: string) => {
     type: 'false'
   }
   const consQuery= new URLSearchParams(consParams)
-  const resProsComment = await fetch(`http://localhost:3000/api/comment/getcomment?${prosQuery}`, {cache:"no-cache"})
-  const resConsComment = await fetch(`http://localhost:3000/api/comment/getcomment?${consQuery}`, {cache:"no-cache"})
+  const resProsComment = await fetch(`http://localhost:3000/api/comment?${prosQuery}`, {cache:"no-cache"})
+  const resConsComment = await fetch(`http://localhost:3000/api/comment?${consQuery}`, {cache:"no-cache"})
 
   const resultProsComment = await resProsComment.json()
   const resultConsComment = await resConsComment.json()
@@ -36,15 +37,16 @@ const fetchComments = async(articleId: string) => {
 }
 
 const Page = async() => {
-  const artciles = await fetchNews()
-  const comments = await fetchComments(artciles[0].id)
+  const articles = await fetchNews()
+  const comments = await fetchComments(articles[0].id)
 
   return(
     <>
+      <Header />
       <main className="flex flex-col w-full max-w-3xl mx-auto p-2">
-        <ArticleCard article={artciles[0]} />
+        <ArticleCard article={articles[0]} />
         <CommentTab prosComments={comments.resultProsComment} consComments={comments.resultConsComment} />
-        <InputArea />
+        <InputArea articleId={articles[0].id} />
       </main>
     </>
   )

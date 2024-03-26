@@ -10,7 +10,7 @@ const ArticleCard = (props: { article: ArticleType }) => {
           alt="Image Description"
         />
       </div>
-      <div className="flex flex-wrap w-full">
+      <div className="flex flex-wrap w-full max-h-40">
         <div className="w-full p-3 flex flex-col h-full sm:p-7">
           <h3 className="text-md font-bold text-gray-800 dark:text-white">
             {props.article?.title}

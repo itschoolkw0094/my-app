@@ -79,13 +79,13 @@ const Header = () => {
 
               <div
                 id="navbar-with-collapse"
-                className="basis-full grow sm:block" 
+                className={`basis-full grow sm:block ${isOpenMobileNav ? "" : "hidden"}`} 
               >
                 <div className="flex flex-col gap-5 mt-5 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5">
                   {data ? 
                     <>
-                      <p>You are successfully logged in</p>
-                    <p>as {data?.user?.email}.</p>
+                      <p>You are successfully logged in as</p>
+                    <p>{data?.user?.name || 'Anonymous'}.</p>
                     <button
                       onClick={() =>
                         signOut({ callbackUrl: "/signin", redirect: false })

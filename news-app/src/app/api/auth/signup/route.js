@@ -4,7 +4,7 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
 export async function POST(req) {
   const body = await req.json()
-  console.log(body)
+  // console.log(body)
   try {
     await prisma.user.create({
       data: {

@@ -27,7 +27,10 @@ export const authOptions = {
           credentials.password,
           user.hashedPassword,
         )
-        if(isValid) return user
+        if(isValid) {
+          console.log(user)
+          return user
+        }
 
         return null
       },
@@ -37,10 +40,6 @@ export const authOptions = {
 
   // adapter: PrismaAdapter(prisma),
 
-  callbacks: {
-    
-  },
-
   secret: process.env.NEXTAUTH_SECRET,
 
   jwt: {
@@ -48,10 +47,29 @@ export const authOptions = {
   },
 
   session: {
+    strategy: 'jwt',
     maxAge: 30 * 24 * 60 * 60,
     updateAge: 24 * 60 * 60,
     generateSessionToken: () => {
       return randomUUID?.() ?? randomBytes(32).toString("hex")
     }
-  }
+  },
+
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.role = user.role;
+      }
+
+      return token;
+    },
+    async session({ session, token }) {
+      if (token) {
+        session.user.id = token.id;
+      }
+      return session;
+    },
+  },
+
 }

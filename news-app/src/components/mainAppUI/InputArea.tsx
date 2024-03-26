@@ -2,12 +2,18 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 type InputData = {
   content: string
 }
 
-const InputArea = () => {
+const InputArea = (props: {articleId: string}) => {
+
+  const {data: session} = useSession()
+
+  const router = useRouter()
 
   // console.log('called')
   const {
@@ -18,9 +24,27 @@ const InputArea = () => {
   } = useForm<InputData>()
 
 
-  const onSubmit = async (data: InputData) => {
-    //todo
-    console.log(data.content)
+  const onSubmit = async (input: InputData) => {
+    setIsOpenOffcanvas(false)
+
+    const req = {
+      authorId: session?.user?.id,
+      authorName: session?.user?.name || 'Anonymous',
+      newsId: props.articleId,
+      content: input.content,
+    }
+    
+    const res = await fetch('http://localhost:3000/api/comment', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(req)
+    })
+    if(res) {
+
+      router.refresh()
+    }
   }
 
   const [isOpenOffcanvas, setIsOpenOffcanvas] = useState<boolean>(false)
@@ -47,7 +71,7 @@ const InputArea = () => {
     </button>
   </div>
   <div className="p-4">
-    <form onSubmit={() => handleSubmit(onSubmit)} className="flex flex-col items-center size-full">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center size-full">
       <textarea {...register('content', { required: true })} id="content" name="content" rows={3} className="w-full block"></textarea>
       <button type="submit" className="w-1/2 my-3 py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">Send !</button>
     </form>

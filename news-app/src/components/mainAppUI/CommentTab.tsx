@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 import CommentCardList from "./CommentCardList";
 import { CommentType } from "@/types/data";
 
-const CommentTab = (props: {prosComments: CommentType[], consComments: CommentType[]}) => {
+const CommentTab = (props: { prosComments: CommentType[], consComments: CommentType[]}) => {
   const [selectedTab, setSelectedTab] = useState<Number>(0);
   const onClickTab = useCallback((tabNumber: Number) => {
     setSelectedTab(tabNumber);
@@ -13,7 +13,7 @@ const CommentTab = (props: {prosComments: CommentType[], consComments: CommentTy
   return (
     <>
       <nav
-        className="mt-1 relative z-0 flex border rounded-xl overflow-hidden dark:border-gray-700"
+        className="mt-1 relative z-0 flex border rounded-xl dark:border-gray-700"
         aria-label="Tabs"
         role="tablist"
       >
