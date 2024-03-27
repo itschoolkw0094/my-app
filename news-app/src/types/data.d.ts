@@ -47,3 +47,9 @@ export type CommentType = {
   goodCount: number;
   badCount: number;
 }
+
+export enum CommentClass {
+  'pros',
+  'cons',
+  'invalid',
+}

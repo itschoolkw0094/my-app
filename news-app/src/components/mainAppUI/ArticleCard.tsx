@@ -1,7 +1,18 @@
+"use client"
+
 import { ArticleType } from "@/types/data";
+import { useState } from "react";
 
 const ArticleCard = (props: { article: ArticleType }) => {
+
+  
+
+
   return (
+    <div className="flex flex-row justify-center w-full">
+      <div className="bg-white items-center"><p>←</p></div>
+    
+
     <div className="bg-white border rounded-xl shadow-sm sm:flex dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7]">
       <div className="flex-shrink-0 relative w-full rounded-t-xl overflow-hidden pt-[30%] sm:rounded-s-xl sm:max-w-60 md:rounded-se-none md:max-w-xs">
         <img
@@ -22,6 +33,9 @@ const ArticleCard = (props: { article: ArticleType }) => {
           <p className="text-xs mt-1 text-gray-500 dark:text-gray-500"></p>
         </div>
       </div>
+    </div>
+
+      <div className="bg-white items-center"><p>→</p></div>
     </div>
   );
 };

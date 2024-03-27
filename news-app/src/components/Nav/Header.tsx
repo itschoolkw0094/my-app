@@ -17,7 +17,7 @@ const Header = () => {
   }
 
   return (
-    <header className="flex flex-wrap sm:justify-start sm:flex-nowrap z-50 w-full bg-white text-sm py-4 dark:bg-gray-800">
+    <header className="flex flex-wrap sm:justify-start sm:flex-nowrap z-50 w-full bg-white text-sm py-4 dark:bg-gray-800 fixed">
             <nav
               className="max-w-[85rem] w-full mx-auto px-4 sm:flex sm:items-center sm:justify-between"
               aria-label="Global"
