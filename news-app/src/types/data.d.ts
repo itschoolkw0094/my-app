@@ -48,6 +48,11 @@ export type CommentType = {
   badCount: number;
 }
 
+export type CommentSet = {
+  prosComments: CommentType[],
+  consComments: CommentType[],
+}
+
 export enum CommentClass {
   'pros',
   'cons',
