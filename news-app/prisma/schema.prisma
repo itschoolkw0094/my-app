@@ -21,8 +21,7 @@ model User {
   hashedPassword  String
   accounts        Account[]
   authed_comments Comment[] @relation("authed_comments")
-  gooded_comments Good[]    @relation("good_by")
-  baded_comments  Bad[]     @relation("bad_by")
+  rateed_comments RateForComment[]    @relation("rated_by")
 }
 
 model Account {
@@ -67,28 +66,18 @@ model Comment {
   type      Boolean   @default(false)
   goodCount Int       @default(0)
   badCount  Int       @default(0)
-  Good      Good[]
-  Bad       Bad[]
+  rate      RateForComment[]
 }
 
-model Good {
+model RateForComment {
   id        Int       @id @default(autoincrement())
   userId    String
-  byUser    User      @relation("good_by", fields: [userId], references: [id])
+  byUser    User      @relation("rated_by", fields: [userId], references: [id])
   commentId String
   atComment Comment   @relation(fields: [commentId], references: [id])
+  type      Boolean
   date      DateTime?
 
   @@unique([userId, commentId])
 }
 
-model Bad {
-  id        Int       @id @default(autoincrement())
-  userId    String
-  byUser    User      @relation("bad_by", fields: [userId], references: [id])
-  commentId String
-  atComment Comment   @relation(fields: [commentId], references: [id])
-  date      DateTime?
-
-  @@unique([userId, commentId])
-}

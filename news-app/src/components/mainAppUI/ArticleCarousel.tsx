@@ -5,6 +5,7 @@ import CommentTab from "./CommentTab";
 import CommentCardList from "./CommentCardList";
 import InputArea from "./InputArea";
 import { ArticleType, CommentType, CommentSet } from "@/types/data";
+import Spinner from "../atoms/Spinner";
 
 // コメントを取得する
 const fetchComments = async (articleId: string) => {
@@ -19,10 +20,12 @@ const fetchComments = async (articleId: string) => {
   };
   const consQuery = new URLSearchParams(consParams);
   const resProsComment = await fetch(
-    `http://localhost:3000/api/comment?${prosQuery}`
+    `http://localhost:3000/api/comment?${prosQuery}`,
+    { cache: "no-cache" }
   );
   const resConsComment = await fetch(
-    `http://localhost:3000/api/comment?${consQuery}`
+    `http://localhost:3000/api/comment?${consQuery}`,
+    { cache: "no-cache" }
   );
 
   const resultProsComment = await resProsComment.json();
@@ -35,14 +38,27 @@ const fetchComments = async (articleId: string) => {
 };
 
 const ArticleCarousel = (props: { articles: ArticleType[] }) => {
+  const maxArticleNum = props.articles.length;
   const [articleNum, setArticleNum] = useState(0);
   const [comments, setComments] = useState<CommentSet>();
+  const [isCommentLoading, setIsCommentLoading] = useState<boolean>(false);
 
-  // useEffect(() => {
-  //   fetchComments(props.articles[articleNum].id).then((comments) => {
-  //     setComments(comments);
-  //   });
-  // }, [articleNum]);
+  useEffect(() => {
+    setIsCommentLoading(true);
+    fetchComments(props.articles[articleNum].id)
+      .then((comments) => {
+        setComments(comments);
+      })
+      .finally(() => setIsCommentLoading(false));
+  }, [articleNum]);
+
+  const rotate = (next: boolean) => {
+    if (next) {
+      setArticleNum((articleNum + 1) % maxArticleNum);
+    } else {
+      setArticleNum((articleNum + (maxArticleNum - 1)) % maxArticleNum);
+    }
+  };
 
   return (
     <>
@@ -50,43 +66,40 @@ const ArticleCarousel = (props: { articles: ArticleType[] }) => {
         data-hs-carousel='{
     "loadingClasses": "opacity-0"
   }'
-        className="relative"
+        className="mt-[60px] relative"
       >
         <div className="hs-carousel relative overflow-hidden w-full min-h-[250px] bg-white rounded-lg sm:min-h-[198px]">
           <div className="hs-carousel-body absolute top-0 bottom-0 start-0 flex flex-nowrap transition-transform duration-700 opacity-0">
-            {props.articles.map((article) => (
-              <>
-                <div className="hs-carousel-slide">
-                  <div className="bg-white sm:flex dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7]">
-                    <div className="flex-shrink-0 relative w-full overflow-hidden pt-[30%] sm:max-w-60 md:max-w-xs">
-                      <img
-                        className="bg-gray-300 size-full absolute top-0 start-0 object-contain"
-                        src={article.image as string}
-                        alt="Image Description"
-                      />
-                    </div>
-                    <div className="flex flex-wrap w-full max-h-40">
-                      <div className="w-full p-3 flex flex-col h-full sm:p-7">
-                        <h3 className="text-md font-bold text-gray-800 dark:text-white">
-                          {article.title}
-                        </h3>
-                        <p className="text-sm mt-1 text-gray-500 dark:text-gray-400">
-                          {article.content}
-                          <span className="text-xs">※画像クリックで詳細</span>
-                        </p>
-                        <p className="text-xs mt-1 text-gray-500 dark:text-gray-500"></p>
-                      </div>
-                    </div>
+            <div className="hs-carousel-slide">
+              <div className="bg-white sm:flex dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7]">
+                <div className="flex-shrink-0 relative w-full overflow-hidden pt-[30%] sm:max-w-60 md:max-w-xs">
+                  <img
+                    className="bg-gray-300 size-full absolute top-0 start-0 object-contain"
+                    src={props.articles[articleNum].image as string}
+                    alt="Image Description"
+                  />
+                </div>
+                <div className="flex flex-wrap w-full max-h-40">
+                  <div className="w-full p-3 flex flex-col h-full sm:p-7">
+                    <h3 className="text-md font-bold text-gray-800 dark:text-white">
+                      {props.articles[articleNum].title}
+                    </h3>
+                    <p className="text-sm mt-1 text-gray-500 dark:text-gray-400">
+                      {props.articles[articleNum].content}
+                      <span className="text-xs">※画像クリックで詳細</span>
+                    </p>
+                    <p className="text-xs mt-1 text-gray-500 dark:text-gray-500"></p>
                   </div>
                 </div>
-              </>
-            ))}
+              </div>
+            </div>
           </div>
         </div>
 
         <button
           type="button"
           className="hs-carousel-prev hs-carousel:disabled:opacity-50 disabled:pointer-events-none absolute inset-y-0 start-0 inline-flex justify-center items-center w-[46px] h-full text-gray-800 hover:bg-gray-800/[.1]"
+          onClick={() => rotate(false)}
         >
           <span className="text-2xl" aria-hidden="true">
             <svg
@@ -108,6 +121,7 @@ const ArticleCarousel = (props: { articles: ArticleType[] }) => {
         <button
           type="button"
           className="hs-carousel-next hs-carousel:disabled:opacity-50 disabled:pointer-events-none absolute inset-y-0 end-0 inline-flex justify-center items-center w-[46px] h-full text-gray-800 hover:bg-gray-800/[.1]"
+          onClick={() => rotate(true)}
         >
           <span className="sr-only">Next</span>
           <span className="text-2xl" aria-hidden="true">
@@ -127,6 +141,16 @@ const ArticleCarousel = (props: { articles: ArticleType[] }) => {
           </span>
         </button>
       </div>
+      {isCommentLoading ? (
+        <div className="mx-auto mt-5">
+          <Spinner />
+        </div>
+      ) : (
+        <>
+          <CommentTab comments={comments} />
+          <InputArea articleId={props.articles[articleNum].id} />
+        </>
+      )}
     </>
   );
 };

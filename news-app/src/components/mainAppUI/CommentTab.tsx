@@ -2,9 +2,9 @@
 
 import { useCallback, useState } from "react";
 import CommentCardList from "./CommentCardList";
-import { CommentType } from "@/types/data";
+import { CommentType, CommentSet } from "@/types/data";
 
-const CommentTab = (props: { prosComments: CommentType[], consComments: CommentType[]}) => {
+const CommentTab = (props: { comments?: CommentSet }) => {
   const [selectedTab, setSelectedTab] = useState<Number>(0);
   const onClickTab = useCallback((tabNumber: Number) => {
     setSelectedTab(tabNumber);
@@ -52,7 +52,7 @@ const CommentTab = (props: { prosComments: CommentType[], consComments: CommentT
           className={`${selectedTab === 0 ? "" : "hidden"}`}
           aria-labelledby="bar-with-underline-item-1"
         >
-          <CommentCardList comments={props.prosComments}/>
+          <CommentCardList comments={props.comments?.prosComments} />
         </div>
         <div
           id="bar-with-underline-2"
@@ -60,7 +60,7 @@ const CommentTab = (props: { prosComments: CommentType[], consComments: CommentT
           className={`${selectedTab === 1 ? "" : "hidden"}`}
           aria-labelledby="bar-with-underline-item-2"
         >
-          <CommentCardList comments={props.consComments}/>
+          <CommentCardList comments={props.comments?.consComments} />
         </div>
       </div>
     </>
