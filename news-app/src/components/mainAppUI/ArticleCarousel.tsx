@@ -2,9 +2,8 @@
 
 import { useEffect, useState } from "react";
 import CommentTab from "./CommentTab";
-import CommentCardList from "./CommentCardList";
 import InputArea from "./InputArea";
-import { ArticleType, CommentType, CommentSet } from "@/types/data";
+import { ArticleType, CommentSet } from "@/types/data";
 import Spinner from "../atoms/Spinner";
 
 // コメントを取得する

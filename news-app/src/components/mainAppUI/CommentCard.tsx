@@ -1,7 +1,10 @@
 import { CommentType } from "@/types/data";
 import { useSession } from "next-auth/react";
+import { useTransition } from "react";
+import { sendRate } from "@/services/rates";
 
 const CommentCard = (props: { comment: CommentType }) => {
+  const [isPending, startTransition] = useTransition();
   const { data, status } = useSession();
 
   return (
@@ -18,10 +21,15 @@ const CommentCard = (props: { comment: CommentType }) => {
       <p className="text-right">
         {/* Rating */}
         <div className="mt-2 flex flex-row justify-end items-center gap-x-2">
-          <h3 className="text-gray-800 dark:text-white">Rate This Comment !</h3>
+          {/* <h3 className="text-gray-800 dark:text-white">Rate This Comment !</h3> */}
           <button
             type="button"
             className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+            onClick={() =>
+              startTransition(() =>
+                sendRate(data?.user.id || "Anonymous", props.comment.id, true)
+              )
+            }
           >
             <svg
               className="flex-shrink-0 size-4"

@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
         authorName: body.authorName,
         newsId: body.newsId,
         date: dayjs().format(),
-        type: false,
+        type: body.type,
         content: body.content,
       }
     })

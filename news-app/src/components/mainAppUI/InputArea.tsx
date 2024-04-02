@@ -117,7 +117,7 @@ const InputArea = (props: { articleId: string }) => {
           onClick={() => toggleOffcanvas()}
           // data-hs-overlay="#hs-overlay-bottom"
         >
-          Comment for this areticle !
+          Comment for this article !
         </button>
       </div>
     </>
