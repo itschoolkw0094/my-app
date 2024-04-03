@@ -17,36 +17,11 @@ const fetchNews = async () => {
       method: "GET",
     }
   );
-  console.log(resArticle);
-  const resultArticle = await resArticle.json();
+  console.log("RESULTTEST:" + resArticle);
+  const resultArticle = await resArticle
+    .json()
+    .then(() => console.log("SUCCESSED TO PARSE"));
   return resultArticle;
-};
-
-// コメントを取得する
-const fetchComments = async (articleId: string) => {
-  const prosParams = {
-    newsId: articleId,
-    type: "true",
-  };
-  const prosQuery = new URLSearchParams(prosParams);
-  const consParams = {
-    newsId: articleId,
-    type: "false",
-  };
-  const consQuery = new URLSearchParams(consParams);
-  const resProsComment = await fetch(
-    `http://localhost:3000/api/comment?${prosQuery}`,
-    { cache: "no-cache" }
-  );
-  const resConsComment = await fetch(
-    `http://localhost:3000/api/comment?${consQuery}`,
-    { cache: "no-cache" }
-  );
-
-  const resultProsComment = await resProsComment.json();
-  const resultConsComment = await resConsComment.json();
-
-  return { prosComments: resultProsComment, consComments: resultConsComment };
 };
 
 const Page = async () => {
