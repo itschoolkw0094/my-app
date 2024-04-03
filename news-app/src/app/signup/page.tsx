@@ -35,13 +35,16 @@ const Page = () => {
     };
     console.log(hashed);
     try {
-      const res = await fetch(`${process.env.VERCEL_URL}/api/auth/signup`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(postData),
-      });
+      const res = await fetch(
+        `http://${process.env.VERCEL_URL}/api/auth/signup`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(postData),
+        }
+      );
       if (res) {
         const result = await res.json();
         router.push("/");

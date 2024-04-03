@@ -19,13 +19,13 @@ const fetchComments = async (articleId: string) => {
   };
   const consQuery = new URLSearchParams(consParams);
   const resProsComment = await fetch(
-    `${process.env.NEXT_API_ROUTE}/api/comment?${prosQuery}`,
+    `http://${process.env.VERCEL_URL}/api/comment?${prosQuery}`,
     {
       cache: "no-cache",
     }
   );
   const resConsComment = await fetch(
-    `${process.env.NEXT_API_ROUTE}/api/comment?${consQuery}`,
+    `http://${process.env.VERCEL_URL}/api/comment?${consQuery}`,
     {
       cache: "no-cache",
     }
