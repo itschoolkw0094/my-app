@@ -9,7 +9,7 @@ import Header from "@/components/Nav/Header";
 // 24時間で再取得
 const fetchNews = async () => {
   const resArticle = await fetch(
-    `http://${process.env.VERCEL_URL}/api/news/getnews`,
+    `https://${process.env.VERCEL_URL}/api/news/getnews`,
     {
       next: { revalidate: 60 * 60 * 24 },
       method: "GET",
