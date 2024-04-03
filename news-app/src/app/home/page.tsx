@@ -18,9 +18,7 @@ const fetchNews = async () => {
     }
   );
   console.log("RESULTTEST:" + resArticle);
-  const resultArticle = await resArticle
-    .json()
-    .then(() => console.log("SUCCESSED TO PARSE"));
+  const resultArticle = await resArticle.json();
   return resultArticle;
 };
 
