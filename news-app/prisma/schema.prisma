@@ -21,7 +21,7 @@ model User {
   hashedPassword  String
   accounts        Account[]
   authed_comments Comment[] @relation("authed_comments")
-  rateed_comments RateForComment[]    @relation("rated_by")
+  rated_comments RateForComment[]    @relation("rated_by")
 }
 
 model Account {
