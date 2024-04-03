@@ -32,13 +32,16 @@ const InputArea = (props: { articleId: string }) => {
       content: input.content,
     };
 
-    const res = await fetch(`https://${process.env.VERCEL_URL}/api/comment`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(req),
-    });
+    const res = await fetch(
+      `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/comment`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(req),
+      }
+    );
     if (res) {
       console.log("refreshed");
       router.refresh();

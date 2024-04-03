@@ -19,13 +19,13 @@ const fetchComments = async (articleId: string) => {
   };
   const consQuery = new URLSearchParams(consParams);
   const resProsComment = await fetch(
-    `https://${process.env.VERCEL_URL}/api/comment?${prosQuery}`,
+    `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/comment?${prosQuery}`,
     {
       cache: "no-cache",
     }
   );
   const resConsComment = await fetch(
-    `https://${process.env.VERCEL_URL}/api/comment?${consQuery}`,
+    `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/comment?${consQuery}`,
     {
       cache: "no-cache",
     }
