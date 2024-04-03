@@ -32,7 +32,7 @@ const InputArea = (props: { articleId: string }) => {
       content: input.content,
     };
 
-    const res = await fetch(`${process.env.VERCEL_URL}/api/comment`, {
+    const res = await fetch(`${process.env.NEXT_API_ROUTE}/api/comment`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
