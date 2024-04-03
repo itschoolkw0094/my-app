@@ -8,13 +8,10 @@ import Header from "@/components/Nav/Header";
 // ニュース情報をサーバーサイドで取得する
 // 24時間で再取得
 const fetchNews = async () => {
-  const resArticle = await fetch(
-    `${process.env.NEXT_API_ROUTE}/api/news/getnews`,
-    {
-      next: { revalidate: 60 * 60 * 24 },
-      method: "GET",
-    }
-  );
+  const resArticle = await fetch(`${process.env.VERCEL_URL}/api/news/getnews`, {
+    next: { revalidate: 60 * 60 * 24 },
+    method: "GET",
+  });
   const resultArticle = await resArticle.json();
   return resultArticle;
 };

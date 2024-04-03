@@ -35,7 +35,7 @@ const Page = () => {
     };
     console.log(hashed);
     try {
-      const res = await fetch(`${process.env.NEXT_API_ROUTE}/api/auth/signup`, {
+      const res = await fetch(`${process.env.VERCEL_URL}/api/auth/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
