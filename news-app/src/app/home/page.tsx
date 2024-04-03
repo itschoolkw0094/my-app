@@ -8,6 +8,8 @@ import Header from "@/components/Nav/Header";
 // ニュース情報をサーバーサイドで取得する
 // 24時間で再取得
 const fetchNews = async () => {
+  console.log("URLTEST:" + process.env.NEXT_PUBLIC_VERCEL_URL);
+  console.log(process.env.VERCEL_URL);
   const resArticle = await fetch(
     `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/news/getnews`,
     {
