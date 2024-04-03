@@ -19,12 +19,16 @@ const fetchComments = async (articleId: string) => {
   };
   const consQuery = new URLSearchParams(consParams);
   const resProsComment = await fetch(
-    `http://localhost:3000/api/comment?${prosQuery}`,
-    { cache: "no-cache" }
+    `${process.env.NEXT_API_ROUTE}/api/comment?${prosQuery}`,
+    {
+      cache: "no-cache",
+    }
   );
   const resConsComment = await fetch(
-    `http://localhost:3000/api/comment?${consQuery}`,
-    { cache: "no-cache" }
+    `${process.env.NEXT_API_ROUTE}/api/comment?${consQuery}`,
+    {
+      cache: "no-cache",
+    }
   );
 
   const resultProsComment = await resProsComment.json();

@@ -4,22 +4,22 @@ import { useEffect, useState, useTransition } from "react";
 import { sendRate } from "@/services/rates";
 import { checkRated } from "@/services/rates";
 
-type Rate = {
-  rate: -1 | 0 | 1;
-};
+// type Rate = {
+//   rate: -1 | 0 | 1;
+// };
 
-const fetchRated = async (userId: string | undefined, commentId: string) => {
-  const params = {
-    userId: userId || "",
-    commentId: commentId,
-  };
-  const query = new URLSearchParams(params);
-  const res = await fetch(`http://localhost:3000/api/israted?${query}`, {
-    cache: "no-cache",
-  });
+// const fetchRated = async (userId: string | undefined, commentId: string) => {
+//   const params = {
+//     userId: userId || "",
+//     commentId: commentId,
+//   };
+//   const query = new URLSearchParams(params);
+//   const res = await fetch(`http://localhost:3000/api/israted?${query}`, {
+//     cache: "no-cache",
+//   });
 
-  return (await res.json()) as Rate;
-};
+//   return (await res.json()) as Rate;
+// };
 
 const CommentCard = (props: { comment: CommentType }) => {
   const [isPending, startTransition] = useTransition();
