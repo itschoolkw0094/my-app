@@ -8,20 +8,28 @@ import prisma from "@/libs/prisma";
 
 // ニュース情報をサーバーサイドで取得する
 // 24時間で再取得
-const fetchNews = async () => {
-  console.log("URLTEST:" + process.env.NEXT_PUBLIC_VERCEL_URL);
-  console.log(process.env.VERCEL_URL);
-  const resArticle = await fetch(
-    `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/news/getnews`,
-    {
-      next: { revalidate: 60 * 60 * 24 },
-      method: "GET",
-    }
-  );
-  console.log(resArticle);
-  const resultArticle = await resArticle.json();
-  return resultArticle;
-};
+
+// 2024/04/03追記:
+// Vercelへのデプロイ時にエラーが発生するため、fetchの利用は避ける。
+// SCで内部APIを叩こうとすると、APIがビルドされる前にfetchが走り
+// 正常にレスポンスを得られないため。（jsonへのparse段階でエラー発生）
+// apiを先にビルドし、後から新しいブランチでデータフェッチすると
+// 上手くいくという説がある。
+
+// const fetchNews = async () => {
+//   console.log("URLTEST:" + process.env.NEXT_PUBLIC_VERCEL_URL);
+//   console.log(process.env.VERCEL_URL);
+//   const resArticle = await fetch(
+//     `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/news/getnews`,
+//     {
+//       next: { revalidate: 60 * 60 * 24 },
+//       method: "GET",
+//     }
+//   );
+//   console.log(resArticle);
+//   const resultArticle = await resArticle.json();
+//   return resultArticle;
+// };
 
 const getNews = async () => {
   try {
@@ -35,7 +43,6 @@ const getNews = async () => {
 const Page = async () => {
   // const articles = await fetchNews();
   const articles = await getNews();
-  //const comments = await fetchComments(articles[0].id);
 
   return (
     <>
