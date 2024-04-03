@@ -17,7 +17,7 @@ const fetchNews = async () => {
       method: "GET",
     }
   );
-  console.log("RESULTTEST:" + resArticle);
+  console.log(resArticle.body);
   const resultArticle = await resArticle.json();
   return resultArticle;
 };
