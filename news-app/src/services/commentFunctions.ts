@@ -22,7 +22,7 @@ export async function getCommentSetWithRated(
 
     if (userId) {
       const commentsWithRated: CommentTypeWithRated[] = [];
-      await comments.map(async (comment) => {
+      await Promise.all(comments.map(async (comment) => {
         await prisma.rateForComment
           .findFirst({
             where: {
@@ -36,8 +36,7 @@ export async function getCommentSetWithRated(
               isRated: rate ? rate.type : null,
             });
           });
-        console.log(commentsWithRated);
-      });
+      }));
       return commentsWithRated;
     } else return comments as CommentTypeWithRated[];
   } catch (error) {

@@ -9,7 +9,7 @@ import apiRootUrl from "@/libs/val/apiRoot";
 import { getCommentSetWithRated } from "@/services/commentFunctions";
 import { useSession } from "next-auth/react";
 
-// コメントを取得する
+// コメントを取得する（fetch）
 const fetchComments = async (articleId: string, userId?: string) => {
   const prosParams = {
     newsId: articleId,
@@ -39,6 +39,7 @@ const fetchComments = async (articleId: string, userId?: string) => {
   } as CommentSet;
 };
 
+// コメントを取得する（Server Actions）
 const fetchCommentsAlt = async (articleId: string, userId?: string) => {
   const prosComments = await getCommentSetWithRated(articleId, true, userId);
   const consComments = await getCommentSetWithRated(articleId, false, userId);
@@ -58,7 +59,7 @@ const ArticleCarousel = (props: { articles: ArticleType[] }) => {
 
   useEffect(() => {
     setIsCommentLoading(true);
-    fetchComments(props.articles[articleNum].id, data?.user.id)
+    fetchCommentsAlt(props.articles[articleNum].id, data?.user.id)
       .then((comments) => {
         setComments(comments);
       })

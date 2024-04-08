@@ -18,24 +18,22 @@ export async function GET(req: NextRequest) {
 
     const commentsWithRated: CommentTypeWithRated[] = []
 
-    await result.map(async (comment) => {
-      await prisma.rateForComment.findFirst(
+    await Promise.all(result.map(async (comment) => {
+      const rate = await prisma.rateForComment.findFirst(
         {
           where: {
             userId: searchParams.get('userId') as string,
             commentId: comment.id
           }
         }
-      ).then((rate) => {
-        commentsWithRated.push(
-          {
+      )
+      await commentsWithRated.push(
+        {
             ...comment,
             isRated: rate ? rate.type : null,
-          }
+        }
         )
-      })
-    })
-
+    }))
     return NextResponse.json(commentsWithRated)
   } catch(error) {
     console.log(error)
