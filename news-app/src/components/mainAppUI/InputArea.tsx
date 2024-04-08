@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import apiRootUrl from "@/libs/val/apiRoot";
+import apiRootUrl from "@/libs/val/apiRootUrl";
 
 type InputData = {
   content: string;
