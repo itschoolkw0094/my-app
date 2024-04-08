@@ -24,17 +24,6 @@ import { checkRated } from "@/services/rateFunctions";
 const CommentCard = (props: { comment: CommentTypeWithRated }) => {
   const [isPending, startTransition] = useTransition();
   const { data, status } = useSession();
-  const [isRated, setIsRated] = useState<number>(0);
-
-  // useEffect(() => {
-  //   // fetchRated(data?.user.id, props.comment.id).then((res) => {
-  //   //   setIsRated(res.rate);
-  //   //   //console.log(isRated);
-  //   // });
-  //   checkRated(data?.user.id, props.comment.id).then((res) =>
-  //     setIsRated(res || 0)
-  //   );
-  // }, []);
 
   return (
     <div className="w-full flex flex-col bg-white p-0.5 md:p-0.5">

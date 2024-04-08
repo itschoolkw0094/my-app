@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { hashSync, genSaltSync } from "bcryptjs-react";
-import apiRootUrl from "@/libs/val/apiRoot";
+import apiRootUrl from "@/libs/val/apiRootUrl";
 
 export type SignupFormData = {
   name: string;

@@ -5,7 +5,7 @@ import CommentTab from "./CommentTab";
 import InputArea from "./InputArea";
 import { ArticleType, CommentSet } from "@/types/data";
 import Spinner from "../atoms/Spinner";
-import apiRootUrl from "@/libs/val/apiRoot";
+import apiRootUrl from "@/libs/val/apiRootUrl";
 import { getCommentSetWithRated } from "@/services/commentFunctions";
 import { useSession } from "next-auth/react";
 
@@ -57,6 +57,7 @@ const ArticleCarousel = (props: { articles: ArticleType[] }) => {
   const [comments, setComments] = useState<CommentSet>();
   const [isCommentLoading, setIsCommentLoading] = useState<boolean>(false);
 
+  // 初期表示および記事ローテーション時にコメント取得
   useEffect(() => {
     setIsCommentLoading(true);
     fetchCommentsAlt(props.articles[articleNum].id, data?.user.id)
@@ -66,6 +67,7 @@ const ArticleCarousel = (props: { articles: ArticleType[] }) => {
       .finally(() => setIsCommentLoading(false));
   }, [articleNum]);
 
+  // 記事ローテーションボタン押下時のステート変更
   const rotate = (next: boolean) => {
     if (next) {
       setArticleNum((articleNum + 1) % maxArticleNum);
