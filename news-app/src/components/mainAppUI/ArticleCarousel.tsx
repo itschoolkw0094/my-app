@@ -55,7 +55,7 @@ const ArticleCarousel = (props: { articles: ArticleType[] }) => {
   const maxArticleNum = props.articles.length;
   const [articleNum, setArticleNum] = useState(0);
   const [comments, setComments] = useState<CommentSet>();
-  const [isCommentLoading, setIsCommentLoading] = useState<boolean>(false);
+  const [isCommentLoading, setIsCommentLoading] = useState<boolean>(true);
 
   // 初期表示および記事ローテーション時にコメント取得
   useEffect(() => {
