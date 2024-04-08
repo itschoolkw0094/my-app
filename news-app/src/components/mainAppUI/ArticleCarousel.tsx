@@ -5,42 +5,50 @@ import CommentTab from "./CommentTab";
 import InputArea from "./InputArea";
 import { ArticleType, CommentSet } from "@/types/data";
 import Spinner from "../atoms/Spinner";
+import apiRootUrl from "@/libs/val/apiRoot";
+import { getCommentSetWithRated } from "@/services/commentFunctions";
+import { useSession } from "next-auth/react";
 
 // コメントを取得する
-const fetchComments = async (articleId: string) => {
-  const prosParams = {
-    newsId: articleId,
-    type: "true",
-  };
-  const prosQuery = new URLSearchParams(prosParams);
-  const consParams = {
-    newsId: articleId,
-    type: "false",
-  };
-  const consQuery = new URLSearchParams(consParams);
-  const resProsComment = await fetch(
-    `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/comment?${prosQuery}`,
-    {
-      cache: "no-cache",
-    }
-  );
-  const resConsComment = await fetch(
-    `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/comment?${consQuery}`,
-    {
-      cache: "no-cache",
-    }
-  );
+// const fetchComments = async (articleId: string) => {
+//   const prosParams = {
+//     newsId: articleId,
+//     type: "true",
+//   };
+//   const prosQuery = new URLSearchParams(prosParams);
+//   const consParams = {
+//     newsId: articleId,
+//     type: "false",
+//   };
+//   const consQuery = new URLSearchParams(consParams);
+//   const resProsComment = await fetch(`${apiRootUrl}/api/comment?${prosQuery}`, {
+//     cache: "no-cache",
+//   });
+//   const resConsComment = await fetch(`${apiRootUrl}/api/comment?${consQuery}`, {
+//     cache: "no-cache",
+//   });
 
-  const resultProsComment = await resProsComment.json();
-  const resultConsComment = await resConsComment.json();
+//   const resultProsComment = await resProsComment.json();
+//   const resultConsComment = await resConsComment.json();
+
+//   return {
+//     prosComments: resultProsComment,
+//     consComments: resultConsComment,
+//   } as CommentSet;
+// };
+
+const fetchCommentsAlt = async (articleId: string, userId?: string) => {
+  const prosComments = await getCommentSetWithRated(articleId, true, userId);
+  const consComments = await getCommentSetWithRated(articleId, false, userId);
 
   return {
-    prosComments: resultProsComment,
-    consComments: resultConsComment,
+    prosComments: prosComments,
+    consComments: consComments,
   } as CommentSet;
 };
 
 const ArticleCarousel = (props: { articles: ArticleType[] }) => {
+  const { data, status } = useSession();
   const maxArticleNum = props.articles.length;
   const [articleNum, setArticleNum] = useState(0);
   const [comments, setComments] = useState<CommentSet>();
@@ -48,7 +56,7 @@ const ArticleCarousel = (props: { articles: ArticleType[] }) => {
 
   useEffect(() => {
     setIsCommentLoading(true);
-    fetchComments(props.articles[articleNum].id)
+    fetchCommentsAlt(props.articles[articleNum].id, data?.user.id)
       .then((comments) => {
         setComments(comments);
       })

@@ -3,6 +3,7 @@
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { hashSync, genSaltSync } from "bcryptjs-react";
+import apiRootUrl from "@/libs/val/apiRoot";
 
 export type SignupFormData = {
   name: string;
@@ -35,16 +36,13 @@ const Page = () => {
     };
     console.log(hashed);
     try {
-      const res = await fetch(
-        `https://${process.env.VERCEL_URL}/api/auth/signup`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(postData),
-        }
-      );
+      const res = await fetch(`${apiRootUrl}/api/auth/signup`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(postData),
+      });
       if (res) {
         const result = await res.json();
         router.push("/");

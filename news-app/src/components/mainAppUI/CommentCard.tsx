@@ -1,8 +1,8 @@
-import { CommentType } from "@/types/data";
+import { CommentType, CommentTypeWithRated } from "@/types/data";
 import { useSession } from "next-auth/react";
 import { useEffect, useState, useTransition } from "react";
-import { sendRate } from "@/services/rates";
-import { checkRated } from "@/services/rates";
+import { sendRate } from "@/services/rateFunctions";
+import { checkRated } from "@/services/rateFunctions";
 
 // type Rate = {
 //   rate: -1 | 0 | 1;
@@ -21,20 +21,20 @@ import { checkRated } from "@/services/rates";
 //   return (await res.json()) as Rate;
 // };
 
-const CommentCard = (props: { comment: CommentType }) => {
+const CommentCard = (props: { comment: CommentTypeWithRated }) => {
   const [isPending, startTransition] = useTransition();
   const { data, status } = useSession();
   const [isRated, setIsRated] = useState<number>(0);
 
-  useEffect(() => {
-    // fetchRated(data?.user.id, props.comment.id).then((res) => {
-    //   setIsRated(res.rate);
-    //   //console.log(isRated);
-    // });
-    checkRated(data?.user.id, props.comment.id).then((res) =>
-      setIsRated(res || 0)
-    );
-  }, []);
+  // useEffect(() => {
+  //   // fetchRated(data?.user.id, props.comment.id).then((res) => {
+  //   //   setIsRated(res.rate);
+  //   //   //console.log(isRated);
+  //   // });
+  //   checkRated(data?.user.id, props.comment.id).then((res) =>
+  //     setIsRated(res || 0)
+  //   );
+  // }, []);
 
   return (
     <div className="w-full flex flex-col bg-white p-0.5 md:p-0.5">
@@ -50,7 +50,7 @@ const CommentCard = (props: { comment: CommentType }) => {
       <p className="text-right">
         {/* Rating */}
         <div className="mt-2 flex flex-row justify-end items-center gap-x-2">
-          {isRated !== 0 && (
+          {props.comment.isRated !== null && (
             <h3 className="text-gray-800 dark:text-white">
               You already rated this comment.
             </h3>

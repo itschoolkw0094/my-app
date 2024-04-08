@@ -46,15 +46,29 @@ export type CommentType = {
   content: string | null;
   goodCount: number;
   badCount: number;
-}
+};
+
+export type CommentTypeWithRated = {
+  id: string;
+  authorId: string;
+  authorName: string | null;
+  newsId: string;
+  date: Date | null;
+  title: string | null;
+  type: boolean;
+  content: string | null;
+  goodCount: number;
+  badCount: number;
+  isRated: boolean | null;
+};
 
 export type CommentSet = {
-  prosComments: CommentType[],
-  consComments: CommentType[],
-}
+  prosComments: CommentTypeWithRated[];
+  consComments: CommentTypeWithRated[];
+};
 
 export enum CommentClass {
-  'pros',
-  'cons',
-  'invalid',
+  "pros",
+  "cons",
+  "invalid",
 }

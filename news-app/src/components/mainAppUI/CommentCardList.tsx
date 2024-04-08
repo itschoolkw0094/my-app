@@ -1,7 +1,7 @@
 import CommentCard from "./CommentCard";
-import { CommentType } from "@/types/data";
+import { CommentType, CommentTypeWithRated } from "@/types/data";
 
-const CommentCardList = (props: { comments?: CommentType[] }) => {
+const CommentCardList = (props: { comments?: CommentTypeWithRated[] }) => {
   return (
     <ul className="w-full h-full flex flex-col mb-10">
       <>

@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import apiRootUrl from "@/libs/val/apiRoot";
 
 type InputData = {
   content: string;
@@ -32,16 +33,13 @@ const InputArea = (props: { articleId: string }) => {
       content: input.content,
     };
 
-    const res = await fetch(
-      `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/comment`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(req),
-      }
-    );
+    const res = await fetch(`${apiRootUrl}/api/comment`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(req),
+    });
     if (res) {
       console.log("refreshed");
       router.refresh();
