@@ -10,32 +10,34 @@ import { getCommentSetWithRated } from "@/services/commentFunctions";
 import { useSession } from "next-auth/react";
 
 // コメントを取得する
-// const fetchComments = async (articleId: string) => {
-//   const prosParams = {
-//     newsId: articleId,
-//     type: "true",
-//   };
-//   const prosQuery = new URLSearchParams(prosParams);
-//   const consParams = {
-//     newsId: articleId,
-//     type: "false",
-//   };
-//   const consQuery = new URLSearchParams(consParams);
-//   const resProsComment = await fetch(`${apiRootUrl}/api/comment?${prosQuery}`, {
-//     cache: "no-cache",
-//   });
-//   const resConsComment = await fetch(`${apiRootUrl}/api/comment?${consQuery}`, {
-//     cache: "no-cache",
-//   });
+const fetchComments = async (articleId: string, userId?: string) => {
+  const prosParams = {
+    newsId: articleId,
+    userId: userId ? userId : "",
+    type: "true",
+  };
+  const prosQuery = new URLSearchParams(prosParams);
+  const consParams = {
+    newsId: articleId,
+    userId: userId ? userId : "",
+    type: "false",
+  };
+  const consQuery = new URLSearchParams(consParams);
+  const resProsComment = await fetch(`${apiRootUrl}/api/comment?${prosQuery}`, {
+    cache: "no-cache",
+  });
+  const resConsComment = await fetch(`${apiRootUrl}/api/comment?${consQuery}`, {
+    cache: "no-cache",
+  });
 
-//   const resultProsComment = await resProsComment.json();
-//   const resultConsComment = await resConsComment.json();
+  const resultProsComment = await resProsComment.json();
+  const resultConsComment = await resConsComment.json();
 
-//   return {
-//     prosComments: resultProsComment,
-//     consComments: resultConsComment,
-//   } as CommentSet;
-// };
+  return {
+    prosComments: resultProsComment,
+    consComments: resultConsComment,
+  } as CommentSet;
+};
 
 const fetchCommentsAlt = async (articleId: string, userId?: string) => {
   const prosComments = await getCommentSetWithRated(articleId, true, userId);
@@ -56,7 +58,7 @@ const ArticleCarousel = (props: { articles: ArticleType[] }) => {
 
   useEffect(() => {
     setIsCommentLoading(true);
-    fetchCommentsAlt(props.articles[articleNum].id, data?.user.id)
+    fetchComments(props.articles[articleNum].id, data?.user.id)
       .then((comments) => {
         setComments(comments);
       })

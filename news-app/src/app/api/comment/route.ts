@@ -1,7 +1,7 @@
 import prisma from "@/libs/prisma"
 import { NextRequest, NextResponse } from "next/server"
 import dayjs from "dayjs"
-import ja from 'dayjs/locale/ja'
+import { CommentTypeWithRated } from "@/types/data"
 
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams
@@ -15,7 +15,28 @@ export async function GET(req: NextRequest) {
         date: 'desc',
       }
     })
-    return NextResponse.json(result)
+
+    const commentsWithRated: CommentTypeWithRated[] = []
+
+    await result.map(async (comment) => {
+      await prisma.rateForComment.findFirst(
+        {
+          where: {
+            userId: searchParams.get('userId') as string,
+            commentId: comment.id
+          }
+        }
+      ).then((rate) => {
+        commentsWithRated.push(
+          {
+            ...comment,
+            isRated: rate ? rate.type : null,
+          }
+        )
+      })
+    })
+
+    return NextResponse.json(commentsWithRated)
   } catch(error) {
     console.log(error)
   }
